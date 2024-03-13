@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<title>Welcomepage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<h1>Velkommen <span th:text="${session.currentUser.name}"></span>. Du er nu logget ind</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Dine annoncer</th>
+    </tr>
+    <tr th:each="listing: ${listings}" >
+        <td th:text="${listing.headline}"></td>
+    </tr>
+    </thead>
+</table>
+
+</body>
+</html>

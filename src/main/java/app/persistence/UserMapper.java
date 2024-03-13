@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.User;
+import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,8 +10,7 @@ import java.sql.SQLException;
 
 public class UserMapper {
 
-    public static User login (String name, String password, ConnectionPool connectionPool) throws Exception{
-        User u = null;
+    public static User login (String name, String password, ConnectionPool connectionPool) throws DatabaseException{
         String sql = "SELECT * FROM users WHERE user_name = ?";
         try (Connection connection = connectionPool.getConnection())
         {
@@ -26,17 +26,18 @@ public class UserMapper {
                         return user;
                     }
                     else{
-                        throw new Exception("The password is incorrect");
+                        throw new DatabaseException("The password is incorrect");
                     }
+                }
+                else{
+                    throw new DatabaseException("Username not found");
                 }
             }
         }
         catch (SQLException ex)
         {
-            System.out.println(ex);
-         //   throw new DatabaseException(ex, "Could not get users from database");
+           // System.out.println(ex.getMessage());
+            throw new DatabaseException("There was a problem with the system");
         }
-
-        return u;
     }
 }
